@@ -10,7 +10,7 @@ namespace TodoApp.Infrastructure
 
         public IEnumerable<Todo> GetAll() => _todos.Values;
 
-        public Todo? Get(int id) => _todos.TryGetValue(id, out var todo) ? todo : null;
+        public Todo? Get(int id) => _todos.GetValueOrDefault(id);
 
         public Todo Add(Todo todo)
         {
