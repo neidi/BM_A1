@@ -7,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devops", "devops", "{75D585EA-0B65-48B6-B71D-D3B77330CFA1}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		generated\openapi.json = generated\openapi.json
 	EndProjectSection
 EndProject
 Global
