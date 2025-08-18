@@ -15,9 +15,16 @@ public class TodoService
 
     public Todo? Get(int id) => _repository.Get(id);
 
-    public Todo Add(Todo todo) => _repository.Add(todo);
+    public Todo Add(AddTodoCommand todo) => _repository.Add(todo.Title, todo.IsCompleted);
 
-    public bool Update(int id, Todo updated) => _repository.Update(id, updated);
+    public bool Update(UpdateTodoCommand updated)
+    {
+        var existing = _repository.Get(updated.Id);
+        if (existing is null) return false;
+        existing.Update(updated.Title, updated.IsCompleted);
+        
+        return _repository.Update(existing);
+    }
 
     public bool Delete(int id) => _repository.Delete(id);
 }

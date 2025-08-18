@@ -23,13 +23,13 @@ public static class TodoApi
 
         app.MapPost("/todos", (TodoDto dto, TodoService todoService) =>
         {
-            var created = todoService.Add(ToDomain(dto));
+            var created = todoService.Add(new AddTodoCommand(dto.Title, dto.IsCompleted));
             return Results.Created($"/todos/{created.Id}", ToDto(created));
         });
 
         app.MapPut("/todos/{id}", (int id, TodoDto dto, TodoService todoService) =>
         {
-            var success = todoService.Update(id, ToDomain(dto));
+            var success = todoService.Update(new UpdateTodoCommand(dto.Id, dto.Title, dto.IsCompleted));
             return success ? Results.NoContent() : Results.NotFound();
         });
 

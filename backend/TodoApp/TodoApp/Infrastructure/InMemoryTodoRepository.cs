@@ -12,18 +12,18 @@ public class InMemoryTodoRepository : ITodoRepository
 
     public Todo? Get(int id) => _todos.GetValueOrDefault(id);
 
-    public Todo Add(Todo todo)
+    public Todo Add(string title, bool isCompleted)
     {
-        todo.Id = _nextId++;
-        _todos[todo.Id] = todo;
+        var id = _nextId++;
+        var todo = new Todo(id, title, isCompleted);
+        _todos[id] = todo;
         return todo;
     }
 
-    public bool Update(int id, Todo updated)
+    public bool Update(Todo updated)
     {
-        if (!_todos.ContainsKey(id)) return false;
-        updated.Id = id;
-        _todos[id] = updated;
+        if (!_todos.ContainsKey(updated.Id)) return false;
+        _todos[updated.Id] = updated;
         return true;
     }
 
