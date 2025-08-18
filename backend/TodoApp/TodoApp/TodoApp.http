@@ -1,6 +1,40 @@
 @TodoApp_HostAddress = http://localhost:5268
 
-GET {{TodoApp_HostAddress}}/weatherforecast/
+### Get all todos
+GET {{TodoApp_HostAddress}}/todos
 Accept: application/json
+
+###
+
+### Create a new todo
+POST {{TodoApp_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Buy milk",
+  "isCompleted": false
+}
+
+###
+
+### Get a todo by id
+GET {{TodoApp_HostAddress}}/todos/1
+Accept: application/json
+
+###
+
+### Update a todo
+PUT {{TodoApp_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "title": "Buy milk and bread",
+  "isCompleted": true
+}
+
+###
+
+### Delete a todo
+DELETE {{TodoApp_HostAddress}}/todos/1
 
 ###
