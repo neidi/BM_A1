@@ -48,3 +48,4 @@ app.MapDelete("/todos/{id}", (int id, TodoService todoService) =>
 });
 
 app.Run();
+public partial class Program { }
