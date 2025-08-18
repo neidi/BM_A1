@@ -1,4 +1,4 @@
-namespace TodoApp
+namespace TodoApp.Domain
 {
     public class Todo
     {

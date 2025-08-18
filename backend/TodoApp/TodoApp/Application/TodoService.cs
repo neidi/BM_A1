@@ -1,7 +1,6 @@
-using System.Collections.Concurrent;
-using TodoApp;
+using TodoApp.Domain;
 
-namespace TodoApp
+namespace TodoApp.Application
 {
     public class TodoService
     {

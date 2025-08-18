@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace TodoApp
+namespace TodoApp.Domain
 {
     public interface ITodoRepository
     {
