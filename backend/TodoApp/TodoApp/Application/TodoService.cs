@@ -2,29 +2,22 @@ using TodoApp.Domain;
 
 namespace TodoApp.Application;
 
-public class TodoService
+public class TodoService(ITodoRepository repository)
 {
-    private readonly ITodoRepository _repository;
+    public IEnumerable<Todo> GetAll() => repository.GetAll();
 
-    public TodoService(ITodoRepository repository)
-    {
-        _repository = repository;
-    }
+    public Todo? Get(int id) => repository.Get(id);
 
-    public IEnumerable<Todo> GetAll() => _repository.GetAll();
-
-    public Todo? Get(int id) => _repository.Get(id);
-
-    public Todo Add(AddTodoCommand todo) => _repository.Add(todo.Title, todo.IsCompleted);
+    public Todo Add(AddTodoCommand todo) => repository.Add(todo.Title, todo.IsCompleted);
 
     public bool Update(UpdateTodoCommand updated)
     {
-        var existing = _repository.Get(updated.Id);
+        var existing = repository.Get(updated.Id);
         if (existing is null) return false;
         existing.Update(updated.Title, updated.IsCompleted);
         
-        return _repository.Update(existing);
+        return repository.Update(existing);
     }
 
-    public bool Delete(int id) => _repository.Delete(id);
+    public bool Delete(int id) => repository.Delete(id);
 }
