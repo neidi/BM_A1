@@ -1,4 +1,7 @@
-using TodoApp;
+using TodoApp.Application;
+using TodoApp.Domain;
+using TodoApp.Infrastructure;
+using TodoApp.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,4 +51,7 @@ app.MapDelete("/todos/{id}", (int id, TodoService todoService) =>
 });
 
 app.Run();
-public partial class Program { }
+namespace TodoApp
+{
+    public partial class Program { }
+}

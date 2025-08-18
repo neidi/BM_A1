@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
-using System.Collections.Generic;
+using TodoApp.Domain;
 
-namespace TodoApp
+namespace TodoApp.Infrastructure
 {
     public class InMemoryTodoRepository : ITodoRepository
     {

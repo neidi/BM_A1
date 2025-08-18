@@ -2,19 +2,14 @@ using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using AwesomeAssertions;
+using TodoApp.Presentation;
 
 namespace TodoApp.IntegrationTests;
 
-public class TodoAppIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public class TodoAppIntegrationTests(WebApplicationFactory<Program> factory)
+    : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
-    private readonly HttpClient _client;
-
-    public TodoAppIntegrationTests(WebApplicationFactory<Program> factory)
-    {
-        _factory = factory;
-        _client = _factory.CreateClient();
-    }
+    private readonly HttpClient _client = factory.CreateClient();
 
     [Fact]
     public async Task GetById_WhenTodoItemWasCreatedBefore_GetsTodo()
@@ -43,13 +38,13 @@ public class TodoAppIntegrationTests : IClassFixture<WebApplicationFactory<Progr
         var createResponse = await _client.PostAsJsonAsync("/todos", newTodo);
         var created = await createResponse.Content.ReadFromJsonAsync<TodoDto>();
 
-        var updatedTodo = new TodoDto { Id = created.Id, Title = "Updated", IsCompleted = true };
+        var updatedTodo = new TodoDto { Id = created!.Id, Title = "Updated", IsCompleted = true };
         var updateResponse = await _client.PutAsJsonAsync($"/todos/{created.Id}", updatedTodo);
         updateResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
         var getResponse = await _client.GetAsync($"/todos/{created.Id}");
         var fetched = await getResponse.Content.ReadFromJsonAsync<TodoDto>();
-        fetched.Title.Should().Be("Updated");
+        fetched!.Title.Should().Be("Updated");
         fetched.IsCompleted.Should().Be(true);
     }
 
@@ -60,7 +55,7 @@ public class TodoAppIntegrationTests : IClassFixture<WebApplicationFactory<Progr
         var createResponse = await _client.PostAsJsonAsync("/todos", newTodo);
         var created = await createResponse.Content.ReadFromJsonAsync<TodoDto>();
 
-        var deleteResponse = await _client.DeleteAsync($"/todos/{created.Id}");
+        var deleteResponse = await _client.DeleteAsync($"/todos/{created!.Id}");
         deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
         var getResponse = await _client.GetAsync($"/todos/{created.Id}");
