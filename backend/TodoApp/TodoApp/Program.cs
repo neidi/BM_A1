@@ -19,7 +19,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 TodoDto ToDto(Todo todo) => new() { Id = todo.Id, Title = todo.Title, IsCompleted = todo.IsCompleted };
-Todo ToDomain(TodoDto dto) => new Todo(dto.Id, dto.Title, dto.IsCompleted);
+Todo ToDomain(TodoDto dto) => new(dto.Id, dto.Title, dto.IsCompleted);
 
 app.MapGet("/todos", (TodoService todoService) => todoService.GetAll().Select(ToDto));
 
