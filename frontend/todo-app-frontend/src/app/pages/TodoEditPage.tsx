@@ -32,7 +32,6 @@ export default function TodoEditPage({
 
   const handleSave = async () => {
     try {
-      debugger;
       await todoApi.updateTodo(id, { title, isCompleted });
       onSave();
     } catch (e: any) {

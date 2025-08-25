@@ -18,10 +18,7 @@ export default function TodoListPage({
     todoApi
       .getTodos()
       .then(setTodos)
-      .catch((e) => {
-        debugger;
-        return setError(e.message);
-      })
+      .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
 
