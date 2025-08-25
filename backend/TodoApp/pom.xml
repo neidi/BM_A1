@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ch.gibz.bma1</groupId>
+    <artifactId>todoapp-backend</artifactId>
+    <version>${NUGET_VERSION}</version>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+
+    <properties>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+    </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>./</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <id>axios-typescript-gen</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.build.directory}/../generated/openapi.json</inputSpec>
+                            <output>${project.build.directory}/generated-sources/clients/typescript-axios</output>
+
+                            <generatorName>typescript-axios</generatorName>
+                            <configOptions>
+                                <npmVersion>${NUGET_VERSION}</npmVersion>
+                                <npmName>@bma1backend/axios_typescript_client</npmName>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
