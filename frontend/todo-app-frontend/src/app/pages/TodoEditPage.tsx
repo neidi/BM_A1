@@ -32,6 +32,7 @@ export default function TodoEditPage({
 
   const handleSave = async () => {
     try {
+      debugger;
       await todoApi.updateTodo(id, { title, isCompleted });
       onSave();
     } catch (e: any) {
@@ -39,27 +40,59 @@ export default function TodoEditPage({
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!todo) return <div>Todo not found</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-64 text-lg text-gray-500">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="flex items-center justify-center h-64 text-lg text-red-500">
+        Error: {error}
+      </div>
+    );
+  if (!todo)
+    return (
+      <div className="flex items-center justify-center h-64 text-lg text-gray-500">
+        Todo not found
+      </div>
+    );
 
   return (
-    <div>
-      <h2>Edit Todo</h2>
-      <label>
-        Title:
-        <input value={title} onChange={(e) => setTitle(e.target.value)} />
-      </label>
-      <label>
-        Completed:
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
+      <h2 className="text-xl font-bold mb-6 text-gray-800">Edit Todo</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-2">Title:</label>
+        <input
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-400 text-gray-900"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <div className="mb-6 flex items-center">
+        <label className="text-gray-700 font-semibold mr-2">Completed:</label>
         <input
           type="checkbox"
           checked={isCompleted}
           onChange={(e) => setIsCompleted(e.target.checked)}
+          className="form-checkbox h-5 w-5 text-blue-600"
         />
-      </label>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={onCancel}>Cancel</button>
+      </div>
+      <div className="flex gap-4">
+        <button
+          onClick={handleSave}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          Save
+        </button>
+        <button
+          onClick={onCancel}
+          className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }
