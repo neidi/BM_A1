@@ -29,7 +29,7 @@ public static class TodoApi
 
         app.MapPut("/todos/{id}", (int id, TodoDto dto, TodoService todoService) =>
         {
-            var success = todoService.Update(new UpdateTodoCommand(dto.Id, dto.Title, dto.IsCompleted));
+            var success = todoService.Update(new UpdateTodoCommand(id, dto.Title, dto.IsCompleted));
             return success ? Results.NoContent() : Results.NotFound();
         });
 
