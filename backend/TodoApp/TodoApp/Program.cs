@@ -28,6 +28,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAny");
+
+// Log all requests and responses to the console
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+    await next.Invoke();
+    Console.WriteLine($"Response: {context.Response.StatusCode} {context.Request.Path}");
+});
+
 // app.UseHttpsRedirection();
 
 app.SetupMinimalApi();
