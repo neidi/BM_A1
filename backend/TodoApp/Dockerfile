@@ -6,8 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 # todo: maybe add access token for private registry later
 
-WORKDIR ./
-COPY ["./", "./"]
+WORKDIR /
+COPY ["/", "/"]
 RUN dotnet restore "TodoApp/TodoApp.csproj"
 RUN dotnet build "TodoApp/TodoApp.csproj" -c Release -o /app/build
 
