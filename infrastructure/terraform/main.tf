@@ -15,7 +15,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "myTFResourceGroup"
+  name     = var.resource_group_name
   location = "Switzerland North"
   tags = {
     Environment = "Terraform Getting Started"
