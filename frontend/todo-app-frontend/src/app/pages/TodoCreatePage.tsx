@@ -17,8 +17,9 @@ export default function TodoCreatePage({
     try {
       await todoApi.createTodo({ title, isCompleted });
       onCreated();
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) setError(e.message);
+      else setError("Unknown error");
     }
   };
 
