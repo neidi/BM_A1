@@ -13,7 +13,6 @@ type ViewState =
 
 export default function Home() {
   const [state, setState] = useState<ViewState>({ view: "list" });
-  ("use client");
 
   if (state.view === "list") {
     return (

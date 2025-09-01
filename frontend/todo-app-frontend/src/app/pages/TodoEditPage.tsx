@@ -34,8 +34,9 @@ export default function TodoEditPage({
     try {
       await todoApi.updateTodo(id, { title, isCompleted });
       onSave();
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) setError(e.message);
+      else setError("Unknown error");
     }
   };
 
