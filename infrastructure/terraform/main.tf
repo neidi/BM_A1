@@ -60,23 +60,24 @@ resource "azurerm_linux_web_app" "webapp1" {
 
   site_config {
     application_stack {
-      docker_image_name   = "samples/todo-app:amd64"
-  docker_registry_url = "https://${azurerm_container_registry.acr.login_server}"
+      docker_image_name        = "samples/todo-app:amd64"
+      docker_registry_url      = "https://${azurerm_container_registry.acr.login_server}"
       docker_registry_username = azurerm_container_registry.acr.admin_username
       docker_registry_password = azurerm_container_registry.acr.admin_password
     }
   }
-      logs {
-          detailed_error_messages = true
-          failed_request_tracing  = true
-          
-          http_logs {
-              file_system {
-                  retention_in_days = 0
-                  retention_in_mb   = 35 
-                }
-            }
-        }
+
+  logs {
+    detailed_error_messages = true
+    failed_request_tracing  = true
+
+    http_logs {
+      file_system {
+        retention_in_days = 0
+        retention_in_mb   = 35
+      }
+    }
+  }
 }
 
 
@@ -85,12 +86,12 @@ resource "azurerm_linux_web_app" "webapp2" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.appserviceplan1.id
-  tags = { test = "version x" }
+  tags                = { test = "version x" }
 
   site_config {
     application_stack {
-      docker_image_name   = "samples/todo-app-frontend:amd64"
-  docker_registry_url = "https://${azurerm_container_registry.acr.login_server}"
+      docker_image_name        = "samples/todo-app-frontend:amd64"
+      docker_registry_url      = "https://${azurerm_container_registry.acr.login_server}"
       docker_registry_username = azurerm_container_registry.acr.admin_username
       docker_registry_password = azurerm_container_registry.acr.admin_password
     }
