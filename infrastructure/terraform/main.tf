@@ -56,7 +56,7 @@ resource "azurerm_linux_web_app" "webapp1" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.appserviceplan1.id
-  tags                = { test = "version x" }
+
 
   site_config {
     application_stack {
@@ -86,7 +86,6 @@ resource "azurerm_linux_web_app" "webapp2" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.appserviceplan1.id
-  tags                = { test = "version x" }
 
   site_config {
     application_stack {
