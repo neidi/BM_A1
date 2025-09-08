@@ -1,12 +1,12 @@
 variable "resource_group_name" {
-  default = "myTFResourceGroup"
+  default = "myTFResourceGroup" #TODO: adjust name
 }
 
 
 variable "webapp1_name" {
-  default = "myTFWebApp1"
+  default = "myTFWebApp1" #TODO: adjust name
 }
 
 variable "webapp2_name" {
-  default = "myTFWebApp2"
+  default = "myTFWebApp2" #TODO: adjust name
 }
