@@ -18,3 +18,7 @@ resource "azurerm_container_registry" "acr" {
   sku                 = "Basic"
   admin_enabled       = true
 }
+
+# After creating the container registry, retrieve the admin username and password
+# and set them as environment variables for use in other environments.
+# Then you have to push your Docker images to this registry before deploying web apps.
