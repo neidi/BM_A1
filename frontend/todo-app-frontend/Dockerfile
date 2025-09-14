@@ -29,6 +29,8 @@ RUN npm i -g npm@11.5.2 && npm run build
 # Run
 FROM base AS run
 
+ARG BACKEND_URL
+ENV NEXT_PUBLIC_API_BASE_URL=$BACKEND_URL
 ENV NODE_ENV=production
 ENV PORT=$PORT
 
