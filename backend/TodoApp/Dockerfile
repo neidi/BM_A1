@@ -14,6 +14,8 @@ FROM build AS publish
 RUN dotnet publish "TodoApp/TodoApp.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+ARG ALLOWED_ORIGIN=http://localhost:3000
+ENV TODOAPP_AllowedOrigin=$ALLOWED_ORIGIN
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TodoApp.dll"]

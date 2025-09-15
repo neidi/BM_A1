@@ -9,14 +9,27 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<ITodoRepository, InMemoryTodoRepository>();
 builder.Services.AddSingleton<TodoService>();
+builder.Configuration.AddEnvironmentVariables("TODOAPP_");
+var allowedOrigin = builder.Configuration["AllowedOrigin"];
 builder.Services.AddCors(options =>
 {
-    // DO NOT USE THIS IN PRODUCTION - FOR DEMO PURPOSES ONLY
-    options.AddPolicy("AllowAny",
-        policy => policy
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod());
+    options.AddPolicy("AllowOrigins",
+        policy =>
+        {
+            if (!string.IsNullOrWhiteSpace(allowedOrigin))
+            {
+                policy.WithOrigins(allowedOrigin)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            }
+            // DO NOT USE THIS "else" IN PRODUCTION - FOR DEMO PURPOSES ONLY
+            else
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            }
+        });
 });
 
 var app = builder.Build();
@@ -27,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseCors("AllowAny");
+app.UseCors("AllowOrigins");
 
 // Log all requests and responses to the console
 app.Use(async (context, next) =>
