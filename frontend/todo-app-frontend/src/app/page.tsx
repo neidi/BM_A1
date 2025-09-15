@@ -1,52 +1,34 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import TodoListPage from "./pages/TodoListPage";
 import TodoDetailPage from "./pages/TodoDetailPage";
 import TodoEditPage from "./pages/TodoEditPage";
 import TodoCreatePage from "./pages/TodoCreatePage";
+import { todoApi } from "../api/todoApi";
 
-type ViewState =
-  | { view: "list" }
-  | { view: "detail"; id: number }
-  | { view: "edit"; id: number }
-  | { view: "create" };
+// Example: SSR navigation state via search params (for demo)
+// In real SSR, use Next.js routing and server actions
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: Record<string, string>;
+}) {
+  const view = searchParams?.view || "list";
+  const id = searchParams?.id ? Number(searchParams.id) : undefined;
 
-export default function Home() {
-  const [state, setState] = useState<ViewState>({ view: "list" });
-
-  if (state.view === "list") {
-    return (
-      <TodoListPage
-        onSelectTodo={(id) => setState({ view: "detail", id })}
-        onCreateTodo={() => setState({ view: "create" })}
-      />
-    );
+  if (view === "list") {
+    const todos = await todoApi.getTodos();
+    return <TodoListPage todos={todos} />;
   }
-  if (state.view === "detail") {
-    return (
-      <TodoDetailPage
-        id={state.id}
-        onEdit={() => setState({ view: "edit", id: state.id })}
-        onBack={() => setState({ view: "list" })}
-      />
-    );
+  if (view === "detail" && id !== undefined) {
+    const todo = await todoApi.getTodo(id).catch(() => null);
+    return <TodoDetailPage todo={todo} />;
   }
-  if (state.view === "edit") {
-    return (
-      <TodoEditPage
-        id={state.id}
-        onSave={() => setState({ view: "detail", id: state.id })}
-        onCancel={() => setState({ view: "detail", id: state.id })}
-      />
-    );
+  if (view === "edit" && id !== undefined) {
+    const todo = await todoApi.getTodo(id).catch(() => null);
+    return <TodoEditPage todo={todo} />;
   }
-  if (state.view === "create") {
-    return (
-      <TodoCreatePage
-        onCreated={() => setState({ view: "list" })}
-        onCancel={() => setState({ view: "list" })}
-      />
-    );
+  if (view === "create") {
+    return <TodoCreatePage />;
   }
   return null;
 }
