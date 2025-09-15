@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set color
+    - name: Set Version
       id: version-generator
       run: echo "CURRENT_VERSION=0.0.1-beta$(date +%s)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
