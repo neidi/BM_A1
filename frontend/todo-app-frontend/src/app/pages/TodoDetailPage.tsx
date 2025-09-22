@@ -1,41 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { todoApi } from "../../api/todoApi";
+import React from "react";
+import { useRouter } from "next/navigation";
 import { TodoDto } from "../../api/types";
 
-export default function TodoDetailPage({
-  id,
-  onEdit,
-  onBack,
-}: {
-  id: number;
-  onEdit: () => void;
-  onBack: () => void;
-}) {
-  const [todo, setTodo] = useState<TodoDto | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    todoApi
-      .getTodo(id)
-      .then(setTodo)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, [id]);
-
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-64 text-lg text-gray-500">
-        Loading...
-      </div>
-    );
-  if (error)
-    return (
-      <div className="flex items-center justify-center h-64 text-lg text-red-500">
-        Error: {error}
-      </div>
-    );
+export default function TodoDetailPage({ todo }: { todo: TodoDto | null }) {
+  const router = useRouter();
   if (!todo)
     return (
       <div className="flex items-center justify-center h-64 text-lg text-gray-500">
@@ -64,13 +33,13 @@ export default function TodoDetailPage({
       </div>
       <div className="flex gap-4">
         <button
-          onClick={onEdit}
+          onClick={() => router.push(`?view=edit&id=${todo.id}`)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           Edit
         </button>
         <button
-          onClick={onBack}
+          onClick={() => router.push("?view=list")}
           className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
         >
           Back

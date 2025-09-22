@@ -1,45 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { todoApi } from "../../api/todoApi";
+import React from "react";
+import { useRouter } from "next/navigation";
 import { TodoDto } from "../../api/types";
 
-export default function TodoListPage({
-  onSelectTodo,
-  onCreateTodo,
-}: {
-  onSelectTodo: (id: number) => void;
-  onCreateTodo: () => void;
-}) {
-  const [todos, setTodos] = useState<TodoDto[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    todoApi
-      .getTodos()
-      .then(setTodos)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-64 text-lg text-gray-500">
-        Loading...
-      </div>
-    );
-  if (error)
-    return (
-      <div className="flex items-center justify-center h-64 text-lg text-red-500">
-        Error: {error}
-      </div>
-    );
+export default function TodoListPage({ todos }: { todos: TodoDto[] }) {
+  const router = useRouter();
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Todos</h1>
       <button
-        onClick={onCreateTodo}
+        onClick={() => router.push("?view=create")}
         className="mb-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
       >
         Add Todo
@@ -63,7 +34,7 @@ export default function TodoListPage({
                 {todo.title}
               </span>
               <button
-                onClick={() => onSelectTodo(todo.id)}
+                onClick={() => router.push(`?view=detail&id=${todo.id}`)}
                 className="ml-4 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition"
               >
                 View
