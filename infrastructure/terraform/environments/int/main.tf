@@ -11,13 +11,6 @@ resource "azurerm_resource_group" "int" {
   }
 }
 
-resource "azurerm_virtual_network" "vnet" {
-  name                = "myTFVnet"
-  address_space       = ["10.0.0.0/16"]
-  location            = "Switzerland North"
-  resource_group_name = azurerm_resource_group.int.name
-}
-
 resource "azurerm_service_plan" "appserviceplan1" {
   name                = "bma1-int-appserviceplan"
   location            = azurerm_resource_group.int.location
